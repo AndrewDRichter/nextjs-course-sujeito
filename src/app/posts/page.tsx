@@ -1,5 +1,6 @@
+import Link from "next/link";
 
-interface PostProps {
+export interface PostProps {
     id: number;
     title: string;
     body: string;
@@ -19,7 +20,10 @@ export default async function PostsPage() {
         'use server'
 
         const userId = formData.get('userId');
-        console.log(userId)
+
+        const response = await fetch(`https://dummyjson.com/posts/user/${userId}`);
+        const data: ResponseProps = await response.json();
+        console.log(data)
     }
 
     return (
@@ -38,6 +42,9 @@ export default async function PostsPage() {
                     <div key={post.id} className="bg-gray-200 p-4 rounded-md">
                         <h2 className="font-bold">{post.title}</h2>
                         <p>{post.body}</p>
+                        <Link className="text-blue-500" href={`/posts/${post.id}`}>
+                            Ver detalhes do post.
+                        </Link>
                     </div>
                 ))}
             </div>
